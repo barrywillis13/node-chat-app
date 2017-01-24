@@ -16,21 +16,21 @@ var io = socketIO(server);
 io.on('connection', (socket) => {
   console.log('New User Connected')
 
-  socket.emit('newMessage', {
-    from: 'Sherona',
-    text: 'Hi, its your Sherona here',
-    createdAt: 12345
-  })
   socket.on('createMessage', (message) => {
-    message.createdAt = 12345
-    console.log('newMessage', message)
+    console.log('createMessage', message)
+    io.emit('newMessage', {
+      from: message.from,
+      text: message.text,
+      createdAt: new Date().getTime()
+    })
   })
 
   socket.on('disconnect', () => {
     console.log('Client Disconnected')
   })
-
 })
+
+
 /////////////////////////////////////////////
 /////////////////////////////////////////////
 
