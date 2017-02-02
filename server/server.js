@@ -18,14 +18,15 @@ var io = socketIO(server);
 io.on('connection', (socket) => {
   console.log('New User Connected')
 
-  socket.emit('newMessage', generateMessage('Admin', 'Welcome human...'))
-
-  socket.broadcast.emit('newMessage', generateMessage('Admin', 'New Human Joined'))
-
   socket.on('join', (params, callback) => {
     if(!isRealString(params.name) || !isRealString(params.room)) {
       callback('Name and room name are required')
     }
+
+    socket.join(params.room)
+    socket.emit('newMessage', generateMessage('Admin', 'Welcome human...'))
+    socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.name} has joined the room`))
+    callback();
   })
 
   socket.on('createMessage', (message, callback) => {
