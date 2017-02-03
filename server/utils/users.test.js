@@ -36,6 +36,28 @@ describe('Users', () => {
     expect(users.users).toEqual([user]);
   })
 
+  it('should remove user', () => {
+    //var users = new Users();
+    var user = users.removeUser('1')
+    expect(user.name).toEqual('Mike')
+  })
+
+  it('should not remove user', () => {
+    var user = users.removeUser('a')
+    expect(user).toEqual(undefined)
+  })
+
+  it('should find user', () => {
+    var user = users.getUser('1');
+    expect(user.name).toBe('Mike')
+  })
+
+  it('should not find user', () => {
+    var user = users.getUser('44');
+    expect(user).toNotExist();
+  })
+
+
   it('should return names for node course', () => {
     var userList = users.getUserList('Node Course');
 
